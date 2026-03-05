@@ -3,23 +3,25 @@ const User = require("../models/user");
 
 const userAuth = async (req, res, next) => {
   try {
-    const { token } = req.cookies;
-    if (!token) {
-      throw new Error("Invalid Token");
-    }
-    const decodedToken = await jwt.verify(token, "DevPassword@secrateKey");
-    const { _id } = decodedToken;
+    const token = req.cookies?.token;
 
-    const user = await User.findById(_id);
+    if (!token || typeof token !== "string") {
+      throw new Error("Token missing or invalid");
+    }
+
+    const decodedToken = jwt.verify(token, "DevPassword@secrateKey");
+
+    const user = await User.findById(decodedToken._id);
+
     if (!user) {
-      throw new Error("User dose not exists");
+      throw new Error("User does not exist");
     }
 
     req.user = user;
 
     next();
   } catch (err) {
-    res.status(400).send(err.message);
+    res.status(401).send(err.message);
   }
 };
 

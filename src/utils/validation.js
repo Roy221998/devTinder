@@ -17,6 +17,28 @@ const validateSignUpData = ({ firstName, lastName, emailId, password }) => {
     throw new Error("Password is not strong enough");
   }
 };
+/**
+ * Validate profile edit data
+ */
+const validateEditProfileData = (req) => {
+  console.log("req ",req)
+  const allowedEditFields = [
+    "firstName",
+    "lastName",
+    "emailId",
+    "photoUrl",
+    "gender",
+    "age",
+    "about",
+    "skills",
+  ];
+
+  const isEditAllowed = Object.keys(req.body).every((field) =>
+    allowedEditFields.includes(field),
+  );
+
+  return isEditAllowed;
+};
 
 /**
  * Sanitize string inputs (trim)
@@ -28,4 +50,4 @@ const sanitizeInput = (value) => {
   return value;
 };
 
-module.exports = { validateSignUpData, sanitizeInput };
+module.exports = { validateSignUpData,validateEditProfileData, sanitizeInput };
