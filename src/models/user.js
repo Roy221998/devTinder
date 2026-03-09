@@ -21,7 +21,6 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       required: true,
       unique: true, // DB-level uniqueness
-      lowercase: true,
       trim: true,
       validate(value) {
         if (!validator.isEmail(value)) {
@@ -42,11 +41,15 @@ const userSchema = new mongoose.Schema(
     },
     gender: {
       type: String,
-      validate(value) {
-        if (!["male", "female", "others"].includes(value)) {
-          throw new Error("Gender data is not valid: " + value);
-        }
+      enum: {
+        values: ["male", "female", "other"],
+        message: `{VALUE} is incorrect status type`,
       },
+      // validate(value) {
+      //   if (!["male", "female", "others"].includes(value)) {
+      //     throw new Error("Gender data is not valid: " + value);
+      //   }
+      // },
     },
     photoUrl: {
       type: String,
@@ -77,7 +80,7 @@ const userSchema = new mongoose.Schema(
 userSchema.methods.getJWT = function () {
   const user = this;
 
-  const token =  jwt.sign({ _id: user._id }, "DevPassword@secrateKey", {
+  const token = jwt.sign({ _id: user._id }, "DevPassword@secrateKey", {
     expiresIn: "1d",
   });
 

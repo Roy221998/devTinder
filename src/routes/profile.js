@@ -59,8 +59,6 @@ profileRouter.patch("/profile/update-password", userAuth, async (req, res) => {
 
     const loggedInUser = await User.findById(req.user._id).select("+password");
 
-    console.log(loggedInUser);
-
     // Compare current password
     const isPasswordValid = await bcrypt.compare(
       currentPassword,

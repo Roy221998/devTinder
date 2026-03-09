@@ -21,7 +21,7 @@ const validateSignUpData = ({ firstName, lastName, emailId, password }) => {
  * Validate profile edit data
  */
 const validateEditProfileData = (req) => {
-  console.log("req ",req)
+  // console.log("req ",req)
   const allowedEditFields = [
     "firstName",
     "lastName",
