@@ -1,22 +1,24 @@
 # APIS
 
 ## authRouter
+
 - POST /signup
 - POST /login
 - POST /logout
 
 ## profileRouter
+
 - GET /profile/view
 - PATCH /profile/edit
-- PATCH /profile/update-password 
+- PATCH /profile/update-password
 
 ## connectionRequestRouter
-- POST /request/send/status/:toUserId
-- POST /request/review/accepted/:requestId
-- POST /request/review/rejected/:requestId
+
+- POST /request/send/:status/:toUserId ---> (status: ignored/interested)
+- POST /request/review/:status/:requestId ---> (status: accepted/rejected)
 
 ## userRouter
-- GET /user/connections
-- GET /user/requests
-- GET /user/feed - get you the profiles of other users on platform
 
+- GET /user/request/received
+- GET /user/connections
+- GET /user/feed - get you the profiles of other users on platform

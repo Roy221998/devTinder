@@ -54,7 +54,9 @@ authRouter.post("/login", async (req, res) => {
       throw new Error("Invalid credentials");
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    //const isMatch = await bcrypt.compare(password, user.password);
+
+    const isMatch = await user.validatePassword(password);
 
     if (!isMatch) {
       throw new Error("Invalid credentials");
@@ -69,6 +71,9 @@ authRouter.post("/login", async (req, res) => {
     // Add the token to cookie and send the response to the user
     res.cookie("token", token, {
       httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 24 * 60 * 60 * 1000,
     });
 
     res.send("Login successful");

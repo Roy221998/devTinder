@@ -22,10 +22,9 @@ profileRouter.get("/profile/view", userAuth, async (req, res) => {
  */
 profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
   try {
-    if (!validateEditProfileData) {
+    if (!validateEditProfileData(req)) {
       throw new Error("Invalid Edit Request");
     }
-
     const loggedInUser = req.user;
 
     Object.keys(req.body).forEach((key) => (loggedInUser[key] = req.body[key]));
@@ -57,6 +56,9 @@ profileRouter.patch("/profile/update-password", userAuth, async (req, res) => {
       throw new Error("Current password and new password are required");
     }
 
+    if (!validator.isStrongPassword(newPassword)) {
+      throw new Error("Password not strong enough");
+    }
     const loggedInUser = await User.findById(req.user._id).select("+password");
 
     // Compare current password
