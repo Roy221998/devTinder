@@ -37,7 +37,7 @@ userRouter.get("/user/request/received", userAuth, async (req, res) => {
     });
   }
 });
-
+// get all sent connection request for the logged in user
 userRouter.get("/user/connections", userAuth, async (req, res) => {
   try {
     const loggedInUserId = req.user._id;
@@ -77,7 +77,7 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
     });
   }
 });
-
+// get feed for the logged in user
 userRouter.get("/user/feed", userAuth, async (req, res) => {
   try {
     const loggedInUserId = req.user._id;
